@@ -1,29 +1,67 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>AR.js Marker Takibi Düzeltmesi</title>
+    <title>AR.js Video Oynatıcı</title>
+    <!-- Gerekli kütüphaneler -->
     <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+
+    <!-- Videoyu ekrana dokunarak başlatma scripti -->
+    <script>
+      window.onload = function() {
+        // HTML içindeki video etiketini id'si ile bul
+        var video = document.querySelector("#bunny-video");
+        
+        // Kullanıcı ekrana bir kez dokunduğunda...
+        document.body.addEventListener("click", function () {
+          // ...videoyu oynat.
+          video.play();
+        }, true);
+      };
+    </script>
   </head>
-  <body style="margin : 0px; overflow: hidden;">
+
+  <body style="margin: 0px; overflow: hidden;">
+    <!-- AR Sahnesi -->
     <a-scene
       vr-mode-ui="enabled: false;"
       embedded
       arjs="sourceType: webcam; trackingMethod: best; debugUIEnabled: false;"
     >
-      <a-marker preset="hiro">
-        <!-- Bu kırmızı kare şimdi tam olarak marker'ın üzerine yerleşecek -->
-        <a-plane 
-            width="1" 
-            height="1" 
-            rotation="-90 0 0" 
-            material="color: red;">
-        </a-plane>
-      </a-marker>
-      
-      <!-- DİKKAT: <a-camera-static/> etiketini kaldırdık! 
-           AR.js doğru kamerayı otomatik olarak ekleyecek. -->
+      <!-- 1. ADIM: Video dosyasını varlık olarak tanımlıyoruz. Bu, sayfanın hızlı yüklenmesini sağlar. -->
+      <a-assets>
+        <!-- 
+          id="bunny-video": Videomuza verdiğimiz benzersiz isim.
+          src: İstediğiniz video URL'si.
+          loop="true": Video bitince yeniden başlar.
+          crossorigin="anonymous": Farklı bir sunucudan video çekerken gereklidir.
+          playsinline webkit-playsinline: Videonun tam ekrana geçmeden, sahnenin içinde oynamasını sağlar (özellikle iPhone için zorunludur).
+        -->
+        <video
+          id="bunny-video"
+          src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+          loop="true"
+          crossorigin="anonymous"
+          playsinline
+          webkit-playsinline
+        ></video>
+      </a-assets>
 
+      <!-- 2. ADIM: Hiro marker'ını tanımlıyoruz. -->
+      <a-marker preset="hiro">
+        <!-- 
+          3. ADIM: Marker'ın üzerine videoyu yerleştiriyoruz.
+          width="1" height="1": Karenin boyutları. Hiro marker'ı 1x1'lik bir alandır, bu yüzden tam üstünü kaplaması için bu değerleri kullanıyoruz.
+          rotation="-90 0 0": Düzlemi dik durmaktan çıkarıp marker'ın üzerine yatırır.
+          material="src: #bunny-video": Düzlemin yüzeyine, id'sini verdiğimiz videoyu "kaplama" olarak atar.
+        -->
+        <a-plane
+          width="1"
+          height="1"
+          rotation="-90 0 0"
+          material="src: #bunny-video"
+        ></a-plane>
+      </a-marker>
     </a-scene>
   </body>
 </html>
