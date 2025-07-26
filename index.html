@@ -6,18 +6,41 @@
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
   </head>
   <body>
+    <!-- 
+      Hedef .mind dosyasını hala CDN'den alıyoruz. İsterseniz kendi .mind dosyanızı da oluşturup 
+      imageTargetSrc: "./kendihedefim.mind" şeklinde belirtebilirsiniz.
+    -->
     <a-scene mindar-image="imageTargetSrc: https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/image-tracking/assets/card-example/card.mind;" 
-             color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" 
+             color-space="sRGB" renderer="alpha: true; colorManagement: true; physicallyCorrectLights"
              vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
              
       <a-assets>
-        <video id="video" src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" autoplay loop muted playsinline webkit-playsinline crossorigin="anonymous"></video>
+        <!-- 
+          ADIM 2.1: Kendi glTF modelimizi bir varlık olarak tanımlıyoruz. 
+          ID vererek daha sonra kolayca çağırabiliriz. src olarak dosya adını yazmamız yeterli 
+          çünkü aynı klasörde.
+        -->
+        <a-asset-item id="benimModelim" src="./deneme.gltf"></a-asset-item>
       </a-assets>
 
       <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
+      <!-- Hedef görüntü (kart) bulunduğunda bu içerik gösterilecek -->
       <a-entity mindar-image-target="targetIndex: 0">
-        <a-video src="#video" width="1" height="0.5625" position="0 0 0" rotation="0 0 0"></a-video>
+        
+        <!-- 
+          ADIM 2.2 ve 2.3: Eski <a-plane> yerine <a-gltf-model> kullanıyoruz.
+          - src="#benimModelim": Assets içinde tanımladığımız modeli çağırır.
+          - position, rotation, scale: Modelin boyutunu, pozisyonunu ve açısını ayarlamak için bu değerlerle oynamanız gerekecek!
+          - animation-mixer: Bu sihirli kısım! Modelin içinde gömülü olan animasyonu bulur ve otomatik olarak döngüde oynatır.
+        -->
+        <a-gltf-model src="#benimModelim" 
+                      position="0 0 0"
+                      rotation="0 0 0" 
+                      scale="0.1 0.1 0.1"
+                      animation-mixer>
+        </a-gltf-model>
+
       </a-entity>
     </a-scene>
   </body>
