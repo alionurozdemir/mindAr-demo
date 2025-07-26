@@ -68,6 +68,9 @@
         <p>1. Bu sayfayı bilgisayarınızda açın</p>
         <p>2. Telefonunuzla MindAR sayfasını açın</p>
         <p>3. Kamerayı yukarıdaki kartı gösterecek şekilde yöneltin</p>
+        <div id="version" style="margin-top: 20px; padding: 10px; background: #f0f0f0; border-radius: 5px; font-size: 12px; color: #666;">
+            <strong>Version:</strong> <span id="versionNumber">Yükleniyor...</span>
+        </div>
     </div>
     
     <div class="qr-code">
@@ -75,5 +78,17 @@
         (Gelecekte<br>
         eklenebilir)
     </div>
+    
+    <script>
+        // Version bilgisini yükle
+        fetch('version.json')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('versionNumber').textContent = `v${data.version} (${new Date(data.lastUpdate).toLocaleString('tr-TR')})`;
+            })
+            .catch(error => {
+                document.getElementById('versionNumber').textContent = 'Hata: ' + error.message;
+            });
+    </script>
 </body>
 </html> 

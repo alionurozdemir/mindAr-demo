@@ -96,16 +96,22 @@
         <p>Kamerayı görsel üzerine yöneltin</p>
     </div>
     
-    <div class="instructions">
-        <p>📱 Kamerayı aşağıdaki görsele yöneltin:</p>
-        <div style="text-align: center; margin: 15px 0;">
-            <img src="card.png" alt="MindAR Target" style="width: 200px; height: auto; border: 3px solid #667eea; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.3);" />
+            <div class="instructions">
+            <p>📱 Kamerayı aşağıdaki görsele yöneltin:</p>
+            <div style="text-align: center; margin: 15px 0;">
+                <img src="card.png" alt="MindAR Target" style="width: 200px; height: auto; border: 3px solid #667eea; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.3);" />
+            </div>
+            <p>👆 Canavara tıklayın ve renk değişimini izleyin!</p>
+            <p style="margin-top: 15px; font-size: 12px; color: #666;">
+                💡 <strong>İpucu:</strong> Bu sayfayı bilgisayarınızda açın ve telefonunuzla kamerayı bu görsele yöneltin
+            </p>
+            <div id="debug" style="margin-top: 15px; padding: 10px; background: #f8f9fa; border-radius: 5px; font-size: 12px; color: #333;">
+                <strong>Debug:</strong> <span id="debugInfo">Başlatılıyor...</span>
+            </div>
+            <div id="version" style="margin-top: 10px; padding: 10px; background: #e3f2fd; border-radius: 5px; font-size: 12px; color: #1976d2;">
+                <strong>Version:</strong> <span id="versionNumber">Yükleniyor...</span>
+            </div>
         </div>
-        <p>👆 Canavara tıklayın ve renk değişimini izleyin!</p>
-        <p style="margin-top: 15px; font-size: 12px; color: #666;">
-            💡 <strong>İpucu:</strong> Bu sayfayı bilgisayarınızda açın ve telefonunuzla kamerayı bu görsele yöneltin
-        </p>
-    </div>
 
     <a-scene
         mindar-image="imageTargetSrc: https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/examples/image-tracking/assets/card-example/card.mind;"
@@ -154,20 +160,36 @@
         // MindAR başlatma - Dokümantasyona uygun
         const sceneEl = document.querySelector('a-scene');
         const loadingEl = document.getElementById('loading');
+        const debugEl = document.getElementById('debugInfo');
         
         console.log('MindAR başlatılıyor...');
+        debugEl.textContent = 'MindAR başlatılıyor...';
+        
+        // Version bilgisini yükle
+        fetch('version.json')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('versionNumber').textContent = `v${data.version} (${new Date(data.lastUpdate).toLocaleString('tr-TR')})`;
+            })
+            .catch(error => {
+                document.getElementById('versionNumber').textContent = 'Hata: ' + error.message;
+            });
         
         sceneEl.addEventListener('renderstart', () => {
             console.log('A-Frame render başladı');
+            debugEl.textContent = 'A-Frame render başladı...';
+            
             const arSystem = sceneEl.systems["mindar-image-system"];
             console.log('AR System:', arSystem);
             
             if (arSystem) {
                 arSystem.start();
                 console.log('MindAR sistemi başlatıldı');
+                debugEl.textContent = 'MindAR sistemi başlatıldı - Hedef aranıyor...';
                 loadingEl.classList.add('hidden');
             } else {
                 console.error('MindAR sistemi bulunamadı!');
+                debugEl.textContent = 'HATA: MindAR sistemi bulunamadı!';
                 loadingEl.innerHTML = `
                     <div style="color: red; font-size: 24px;">❌</div>
                     <p><strong>MindAR Hatası!</strong></p>
@@ -241,12 +263,14 @@
         // AR hedef bulunduğunda
         sceneEl.addEventListener('targetFound', () => {
             console.log('🎯 AR hedef bulundu!');
+            debugEl.textContent = '🎯 AR hedef bulundu! Canavar görünür olmalı...';
             document.querySelector('.instructions').style.display = 'none';
         });
         
         // AR hedef kaybedildiğinde
         sceneEl.addEventListener('targetLost', () => {
             console.log('❌ AR hedef kaybedildi!');
+            debugEl.textContent = '❌ AR hedef kaybedildi! Hedef aranıyor...';
             document.querySelector('.instructions').style.display = 'block';
         });
         
