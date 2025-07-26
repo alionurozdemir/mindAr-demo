@@ -1,226 +1,56 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>MindAR Canavar Deneyimi</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 20px;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-        }
+  <!-- Gerekli kütüphaneleri yüklüyoruz: A-Frame ve AR.js -->
+  <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+  <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+
+  <body style="margin : 0px; overflow: hidden;">
+    <!-- AR.js sahnesi. Görüntü izleme (image tracking) için ayarlandı. -->
+    <a-scene
+      vr-mode-ui="enabled: false;"
+      renderer="logarithmicDepthBuffer: true;"
+      embedded
+      arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;"
+    >
+      <!-- 
+        Kamerayı tanımlıyoruz. 
+        preset: kameranın varsayılan ayarlarını belirler.
+      -->
+      <a-camera gps-camera="" rotation-reader> </a-camera>
+
+      <!-- 
+        Bu bizim marker'ımız (işaretleyici). 
+        Kamera bu görseli algıladığında içindeki nesneler görünür olur.
+        preset="hiro": AR.js'in dahili "hiro" desenini kullanır.
+        Kendi marker'ınızı kullanmak için:
+        1. type="pattern" olarak değiştirin.
+        2. url="marker.patt" şeklinde .patt dosyanızın yolunu belirtin.
+      -->
+ <a-marker type="pattern" url="marker.patt">
         
-        .container {
-            background: white;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            max-width: 600px;
-            margin: 50px auto;
-            text-align: center;
-        }
-        
-        .header {
-            margin-bottom: 30px;
-        }
-        
-        .header h1 {
-            color: #333;
-            font-size: 32px;
-            margin-bottom: 10px;
-        }
-        
-        .header p {
-            color: #666;
-            font-size: 18px;
-        }
-        
-        .experiment-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin: 30px 0;
-        }
-        
-        .experiment-card {
-            background: #f8f9fa;
-            border-radius: 15px;
-            padding: 25px;
-            text-align: center;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border: 2px solid transparent;
-        }
-        
-        .experiment-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-            border-color: #667eea;
-        }
-        
-        .experiment-card h3 {
-            color: #333;
-            margin-bottom: 15px;
-            font-size: 20px;
-        }
-        
-        .experiment-card p {
-            color: #666;
-            margin-bottom: 20px;
-            font-size: 14px;
-        }
-        
-        .experiment-card .emoji {
-            font-size: 48px;
-            margin-bottom: 15px;
-            display: block;
-        }
-        
-        .btn {
-            background: #667eea;
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 25px;
-            font-size: 16px;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-            transition: background 0.3s ease;
-        }
-        
-        .btn:hover {
-            background: #5a6fd8;
-        }
-        
-        .btn-secondary {
-            background: #6c757d;
-        }
-        
-        .btn-secondary:hover {
-            background: #5a6268;
-        }
-        
-        .instructions {
-            background: #e3f2fd;
-            border: 1px solid #bbdefb;
-            padding: 20px;
-            border-radius: 10px;
-            margin: 30px 0;
-            text-align: left;
-        }
-        
-        .instructions h3 {
-            color: #1976d2;
-            margin-top: 0;
-        }
-        
-        .instructions ol {
-            color: #333;
-            line-height: 1.6;
-        }
-        
-        .status {
-            background: #d4edda;
-            border: 1px solid #c3e6cb;
-            color: #155724;
-            padding: 15px;
-            border-radius: 10px;
-            margin: 20px 0;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>🐉 MindAR Canavar Deneyimi - GitHub Entegrasyonu Aktif!</h1>
-            <p>Artırılmış Gerçeklik ile 3D Canavarlar</p>
-        </div>
-        
-        <div class="status">
-            ✅ <strong>HTTPS Aktif!</strong> Kamera erişimi artık çalışacak.
-        </div>
-        
-        <div class="experiment-grid">
-            <div class="experiment-card">
-                <span class="emoji">📱</span>
-                <h3>Kamera Testi</h3>
-                <p>Kamera erişimini test edin ve ayarlayın</p>
-                <a href="camera-test.html" class="btn">🎥 Test Et</a>
-            </div>
-            
-            <div class="experiment-card">
-                <span class="emoji">🎯</span>
-                <h3>Hedef Görsel</h3>
-                <p>AR için hedef görseli gösterin</p>
-                <a href="target-card.html" class="btn">🖼️ Görüntüle</a>
-            </div>
-            
-            <div class="experiment-card">
-                <span class="emoji">🐉</span>
-                <h3>Canavar AR</h3>
-                <p>Temel canavar deneyimi</p>
-                <a href="mindar-monster.html" class="btn">🎮 Başlat</a>
-            </div>
-            
-            <div class="experiment-card">
-                <span class="emoji">🔥</span>
-                <h3>Ejderha AR</h3>
-                <p>Gelişmiş ejderha deneyimi</p>
-                <a href="mindar-dragon.html" class="btn">🐲 Başlat</a>
-            </div>
-            
-            <div class="experiment-card">
-                <span class="emoji">🎮</span>
-                <h3>Basit AR</h3>
-                <p>Basit küp deneyimi</p>
-                <a href="simple-ar.html" class="btn">📦 Başlat</a>
-            </div>
-            
-            <div class="experiment-card">
-                <span class="emoji">🧪</span>
-                <h3>Test Sayfası</h3>
-                <p>Tüm deneyimleri test edin</p>
-                <a href="netlify-test.html" class="btn">🔬 Test Et</a>
-            </div>
-            
-            <div class="experiment-card">
-                <span class="emoji">🚀</span>
-                <h3>FINAL ÇÖZÜM</h3>
-                <p>Kamera + 3D Model (MindAR yok)</p>
-                <a href="final-solution.html" class="btn">🎯 ÇALIŞIR!</a>
-            </div>
-            
-            <div class="experiment-card">
-                <span class="emoji">🤖</span>
-                <h3>AI Image Recognition</h3>
-                <p>Kamera görseli tanıyınca 3D model açılır!</p>
-                <a href="image-recognition.html" class="btn">🧠 AI ÇALIŞIR!</a>
-            </div>
-            
-            <div class="experiment-card">
-                <span class="emoji">⚡</span>
-                <h3>AR.js (En İyi)</h3>
-                <p>AR.js ile gelişmiş AR deneyimi!</p>
-                <a href="arjs-solution.html" class="btn">⚡ EN İYİ!</a>
-            </div>
-        </div>
-        
-        <div class="instructions">
-            <h3>📱 Nasıl Kullanılır:</h3>
-            <ol>
-                <li><strong>Kamera Testi:</strong> Önce kamera erişimini test edin</li>
-                <li><strong>Hedef Görsel:</strong> Bu sayfayı başka bir cihazda açın</li>
-                <li><strong>AR Deneyimi:</strong> Kamerayı hedef görsele yöneltin</li>
-                <li><strong>Etkileşim:</strong> 3D canavara tıklayın ve renk değişimini izleyin</li>
-            </ol>
-        </div>
-        
-        <div style="margin-top: 30px;">
-            <a href="README.md" class="btn btn-secondary">📖 Dokümantasyon</a>
-        </div>
-    </div>
-</body>
-</html> 
+        <!-- Marker üzerinde görünecek 3D Kutu -->
+        <!-- position: x y z eksenindeki konumunu ayarlar. 0.5 ile biraz yukarı aldık. -->
+        <!-- material: rengini ve opaklığını (şeffaflık) ayarlar. -->
+        <a-box
+          position="0 0.5 0"
+          material="color: red; opacity: 0.8;"
+        ></a-box>
+
+        <!-- Marker üzerinde görünecek resim -->
+        <!-- 
+            src: gösterilecek resmin yolu. İnternetten bir resim adresi de olabilir.
+            position: kutunun altına yerleştirdik.
+            rotation: x ekseninde -90 derece döndürerek yere paralel hale getirdik.
+        -->
+        <a-image 
+            src="https://static.vecteezy.com/system/resources/thumbnails/023/524/637/small_2x/red-sport-car-design-transparent-background-free-png.png"
+            width="2"
+            height="2"
+            position="0 -0.5 0"
+            rotation="-90 0 0"
+        ></a-image>
+
+      </a-marker>
+    </a-scene>
+  </body>
+</html>
