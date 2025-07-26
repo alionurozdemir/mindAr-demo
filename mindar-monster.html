@@ -97,7 +97,11 @@
     </div>
     
     <div class="instructions">
-        <p>📱 Kamerayı görsel üzerine yöneltin</p>
+        <p>📱 Kamerayı aşağıdaki görsele yöneltin:</p>
+        <div style="text-align: center; margin: 15px 0;">
+            <img id="targetImage" src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/examples/image-tracking/assets/card-example/card.png" 
+                 style="width: 200px; height: auto; border: 3px solid #667eea; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.3);" />
+        </div>
         <p>👆 Canavara tıklayın ve renk değişimini izleyin!</p>
     </div>
 
@@ -109,6 +113,8 @@
         device-orientation-permission-ui="enabled: false">
 
         <a-assets>
+            <!-- Target görseli -->
+            <img id="card" src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/examples/image-tracking/assets/card-example/card.png" />
             <!-- 3D Canavar Modeli - Ücretsiz GLB modeli -->
             <a-asset-item id="monsterModel" src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@dev/examples/models/gltf/DamagedHelmet/glTF/DamagedHelmet.gltf"></a-asset-item>
         </a-assets>
@@ -149,10 +155,26 @@
         const sceneEl = document.querySelector('a-scene');
         const loadingEl = document.getElementById('loading');
         
+        console.log('MindAR başlatılıyor...');
+        
         sceneEl.addEventListener('renderstart', () => {
+            console.log('A-Frame render başladı');
             const arSystem = sceneEl.systems["mindar-image-system"];
-            arSystem.start();
-            loadingEl.classList.add('hidden');
+            console.log('AR System:', arSystem);
+            
+            if (arSystem) {
+                arSystem.start();
+                console.log('MindAR sistemi başlatıldı');
+                loadingEl.classList.add('hidden');
+            } else {
+                console.error('MindAR sistemi bulunamadı!');
+                loadingEl.innerHTML = `
+                    <div style="color: red; font-size: 24px;">❌</div>
+                    <p><strong>MindAR Hatası!</strong></p>
+                    <p>AR sistemi yüklenemedi</p>
+                    <button onclick="location.reload()" style="background: #667eea; color: white; border: none; padding: 10px 20px; border-radius: 10px; cursor: pointer;">Tekrar Dene</button>
+                `;
+            }
         });
         
         // Tıklama olayları
@@ -218,12 +240,14 @@
         
         // AR hedef bulunduğunda
         sceneEl.addEventListener('targetFound', () => {
-            console.log('AR hedef bulundu!');
+            console.log('🎯 AR hedef bulundu!');
+            document.querySelector('.instructions').style.display = 'none';
         });
         
         // AR hedef kaybedildiğinde
         sceneEl.addEventListener('targetLost', () => {
-            console.log('AR hedef kaybedildi!');
+            console.log('❌ AR hedef kaybedildi!');
+            document.querySelector('.instructions').style.display = 'block';
         });
         
         // Hata yönetimi
