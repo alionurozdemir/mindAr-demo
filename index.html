@@ -1,20 +1,30 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>AR.js Test</title>
+    <title>AR.js Marker Düzlemi</title>
     <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
   </head>
   <body style="margin : 0px; overflow: hidden;">
-    <!-- DEĞİŞİKLİK BURADA: debugUIEnabled: true; eklendi -->
     <a-scene
       vr-mode-ui="enabled: false;"
       embedded
-      arjs="sourceType: webcam; trackingMethod: best; debugUIEnabled: true;"
+      arjs="sourceType: webcam; trackingMethod: best; debugUIEnabled: false;"
     >
       <a-marker preset="hiro">
-        <!-- Marker bulunduğunda görünecek kırmızı kutu -->
-        <a-box position="0 0.5 0" material="color: red;"></a-box>
+        <!-- 
+          3D Kutu yerine 2D Düzlem (Kare) kullanıyoruz.
+          width="1" height="1": Marker'ın standart boyutuyla aynı boyutta olmasını sağlar.
+          rotation="-90 0 0": Düzlemi dik durmaktan çıkarıp yere yatırır.
+          material="color: red": Rengini kırmızı yapar.
+        -->
+        <a-plane 
+            width="1" 
+            height="1" 
+            rotation="-90 0 0" 
+            material="color: red;">
+        </a-plane>
+
       </a-marker>
       
       <a-camera-static/>
