@@ -5,48 +5,23 @@
   <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
 
   <body style="margin : 0px; overflow: hidden;">
-    <!-- AR.js sahnesi. Görüntü izleme (image tracking) için ayarlandı. -->
     <a-scene
       vr-mode-ui="enabled: false;"
       renderer="logarithmicDepthBuffer: true;"
       embedded
       arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;"
     >
-      <!-- 
-        Kamerayı tanımlıyoruz. 
-        preset: kameranın varsayılan ayarlarını belirler.
-      -->
       <a-camera gps-camera="" rotation-reader> </a-camera>
 
-      <!-- 
-        Bu bizim marker'ımız (işaretleyici). 
-        Kamera bu görseli algıladığında içindeki nesneler görünür olur.
-        preset="hiro": AR.js'in dahili "hiro" desenini kullanır.
-        Kendi marker'ınızı kullanmak için:
-        1. type="pattern" olarak değiştirin.
-        2. url="marker.patt" şeklinde .patt dosyanızın yolunu belirtin.
-      -->
- <a-marker type="pattern" url="marker.patt">
+      <!-- DEĞİŞİKLİK BURADA: type="pattern" yerine preset="hiro" kullanıyoruz -->
+      <a-marker preset="hiro">
         
-        <!-- Marker üzerinde görünecek 3D Kutu -->
-        <!-- position: x y z eksenindeki konumunu ayarlar. 0.5 ile biraz yukarı aldık. -->
-        <!-- material: rengini ve opaklığını (şeffaflık) ayarlar. -->
-        <a-box
-          position="0 0.5 0"
-          material="color: red; opacity: 0.8;"
-        ></a-box>
-
-        <!-- Marker üzerinde görünecek resim -->
-        <!-- 
-            src: gösterilecek resmin yolu. İnternetten bir resim adresi de olabilir.
-            position: kutunun altına yerleştirdik.
-            rotation: x ekseninde -90 derece döndürerek yere paralel hale getirdik.
-        -->
+        <!-- Marker üzerinde görünecek araba resmi -->
         <a-image 
-            src="https://static.vecteezy.com/system/resources/thumbnails/023/524/637/small_2x/red-sport-car-design-transparent-background-free-png.png"
-            width="2"
-            height="2"
-            position="0 -0.5 0"
+            src="https://images.pexels.com/photos/270408/pexels-photo-270408.jpeg"
+            width="1.5"
+            height="1.5"
+            position="0 0 0"
             rotation="-90 0 0"
         ></a-image>
 
