@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>FINAL ÇÖZÜM - Kamera + 3D Model</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+        
+        #video {
+            width: 100%;
+            height: 100vh;
+            object-fit: cover;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+        
+        #monster {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 60px;
+            cursor: pointer;
+            z-index: 999;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+            border: 4px solid white;
+        }
+        
+        #monster:hover {
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+        
+        .status {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            z-index: 1000;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .instructions {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            z-index: 1000;
+            text-align: center;
+        }
+        
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <video id="video" autoplay playsinline></video>
+    
+    <div id="monster">🐉</div>
+    
+    <div class="status">
+        <div id="statusText">Kamera başlatılıyor...</div>
+        <div id="versionText">Version: Yükleniyor...</div>
+    </div>
+    
+    <div class="instructions">
+        👆 Canavara tıklayın! Her tıklamada renk değişir ve mesaj gelir!
+    </div>
+
+    <script>
+        const video = document.getElementById('video');
+        const monster = document.getElementById('monster');
+        const statusText = document.getElementById('statusText');
+        const versionText = document.getElementById('versionText');
+        
+        let clickCount = 0;
+        const colors = [
+            'linear-gradient(45deg, #ff6b6b, #ee5a24)',
+            'linear-gradient(45deg, #4ecdc4, #44a08d)',
+            'linear-gradient(45deg, #45b7d1, #96c93d)',
+            'linear-gradient(45deg, #96ceb4, #feca57)',
+            'linear-gradient(45deg, #feca57, #ff9ff3)',
+            'linear-gradient(45deg, #ff9ff3, #54a0ff)',
+            'linear-gradient(45deg, #54a0ff, #5f27cd)'
+        ];
+        
+        const messages = [
+            '🔥 Canavar ateşlendi!',
+            '💧 Canavar suya dönüştü!',
+            '🌪️ Canavar rüzgar oldu!',
+            '⚡ Canavar elektrik yüklendi!',
+            '🌿 Canavar doğaya döndü!',
+            '✨ Canavar büyülendi!',
+            '🌈 Canavar gökkuşağı oldu!'
+        ];
+        
+        // Kamera başlat
+        async function startCamera() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ 
+                    video: { 
+                        facingMode: 'environment',
+                        width: { ideal: 1920 },
+                        height: { ideal: 1080 }
+                    } 
+                });
+                
+                video.srcObject = stream;
+                
+                video.addEventListener('loadedmetadata', () => {
+                    statusText.textContent = '✅ Kamera başarıyla başlatıldı!';
+                    console.log('Kamera başarıyla başlatıldı');
+                });
+                
+            } catch (error) {
+                statusText.textContent = `❌ Kamera hatası: ${error.message}`;
+                console.error('Kamera hatası:', error);
+            }
+        }
+        
+        // Canavar tıklama
+        monster.addEventListener('click', () => {
+            clickCount++;
+            
+            // Renk değiştir
+            const newColor = colors[clickCount % colors.length];
+            monster.style.background = newColor;
+            
+            // Animasyon
+            monster.style.transform = 'translate(-50%, -50%) scale(1.3)';
+            setTimeout(() => {
+                monster.style.transform = 'translate(-50%, -50%) scale(1)';
+            }, 200);
+            
+            // Alert mesajı
+            const message = messages[clickCount % messages.length];
+            alert(message);
+            
+            console.log(`Canavar tıklandı! Renk: ${newColor}, Mesaj: ${message}`);
+        });
+        
+        // Version bilgisini yükle
+        fetch('version.json')
+            .then(response => response.json())
+            .then(data => {
+                versionText.textContent = `Version: v${data.version} (${new Date(data.lastUpdate).toLocaleString('tr-TR')})`;
+            })
+            .catch(error => {
+                versionText.textContent = 'Version: Hata';
+            });
+        
+        // Sayfa yüklendiğinde kamerayı başlat
+        window.addEventListener('load', () => {
+            setTimeout(startCamera, 1000);
+        });
+        
+        // Sayfa kapanırken kamerayı durdur
+        window.addEventListener('beforeunload', () => {
+            if (video.srcObject) {
+                video.srcObject.getTracks().forEach(track => track.stop());
+            }
+        });
+    </script>
+</body>
+</html> 
