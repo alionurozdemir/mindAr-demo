@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MindAR Target Card</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: white;
+            font-family: Arial, sans-serif;
+        }
+        
+        .target-card {
+            width: 300px;
+            height: 200px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border: 5px solid #333;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            margin: 50px auto;
+        }
+        
+        .target-card h1 {
+            font-size: 24px;
+            margin: 0 0 10px 0;
+        }
+        
+        .target-card p {
+            font-size: 16px;
+            margin: 0;
+        }
+        
+        .instructions {
+            text-align: center;
+            margin: 30px;
+            color: #333;
+        }
+        
+        .qr-code {
+            width: 100px;
+            height: 100px;
+            background: #333;
+            margin: 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="target-card">
+        <h1>🎯 MindAR Target</h1>
+        <p>Bu görseli kameraya gösterin</p>
+    </div>
+    
+    <div class="instructions">
+        <h2>📱 Nasıl Kullanılır:</h2>
+        <p>1. Bu sayfayı bilgisayarınızda açın</p>
+        <p>2. Telefonunuzla MindAR sayfasını açın</p>
+        <p>3. Kamerayı yukarıdaki kartı gösterecek şekilde yöneltin</p>
+    </div>
+    
+    <div class="qr-code">
+        QR Kod<br>
+        (Gelecekte<br>
+        eklenebilir)
+    </div>
+</body>
+</html> 
