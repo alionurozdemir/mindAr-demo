@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MindAR Basit Test</title>
+    <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background: #f0f0f0;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .info { background: #d1ecf1; color: #0c5460; }
+        
+        .target-image {
+            width: 200px;
+            height: auto;
+            border: 3px solid #333;
+            border-radius: 10px;
+            margin: 20px auto;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 MindAR Basit Test</h1>
+        
+        <div id="status" class="status info">Başlatılıyor...</div>
+        
+        <div>
+            <h3>📱 Hedef Görsel:</h3>
+            <img src="card.png" alt="Target" class="target-image" />
+        </div>
+        
+        <div>
+            <h3>📋 Test Adımları:</h3>
+            <ol>
+                <li>Bu sayfayı bilgisayarınızda açın</li>
+                <li>Telefonunuzla aşağıdaki AR sayfasını açın</li>
+                <li>Kamerayı yukarıdaki görsele yöneltin</li>
+                <li>Status mesajlarını izleyin</li>
+            </ol>
+        </div>
+        
+        <div>
+            <h3>🔗 AR Test Sayfası:</h3>
+            <a href="ar-test.html" style="background: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">AR Test Sayfasını Aç</a>
+        </div>
+    </div>
+    
+    <script>
+        // Version bilgisini yükle
+        fetch('version.json')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('status').innerHTML = `
+                    <strong>Version:</strong> v${data.version} (${new Date(data.lastUpdate).toLocaleString('tr-TR')})<br>
+                    <strong>Durum:</strong> Hazır - AR test sayfasını açın
+                `;
+                document.getElementById('status').className = 'status success';
+            })
+            .catch(error => {
+                document.getElementById('status').innerHTML = `<strong>Hata:</strong> ${error.message}`;
+                document.getElementById('status').className = 'status error';
+            });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MindAR Basit Test</title>
+    <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        
+        .status {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            z-index: 1000;
+            font-size: 14px;
+        }
+        
+        .target-hint {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            z-index: 1000;
+            text-align: center;
+        }
+        
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="status" class="status">
+        <strong>MindAR Test</strong><br>
+        Durum: Başlatılıyor...
+    </div>
+    
+    <div id="targetHint" class="target-hint">
+        📱 Kamerayı hedef görsele yöneltin
+    </div>
+
+    <a-scene
+        mindar-image="imageTargetSrc: https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/examples/image-tracking/assets/card-example/card.mind;"
+        color-space="sRGB"
+        renderer="colorManagement: true, physicallyCorrectLights"
+        vr-mode-ui="enabled: false"
+        device-orientation-permission-ui="enabled: false">
+
+        <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+
+        <a-entity mindar-image-target="targetIndex: 0">
+            <!-- Basit kırmızı küp -->
+            <a-box
+                position="0 0 0"
+                rotation="0 0 0"
+                width="1"
+                height="1"
+                depth="1"
+                color="#ff0000">
+            </a-box>
+            
+            <!-- Işıklandırma -->
+            <a-light type="ambient" color="#ffffff" intensity="0.6"></a-light>
+            <a-light type="directional" position="0 1 0" color="#ffffff" intensity="0.8"></a-light>
+        </a-entity>
+    </a-scene>
+
+    <script>
+        const statusEl = document.getElementById('status');
+        const targetHintEl = document.getElementById('targetHint');
+        const sceneEl = document.querySelector('a-scene');
+        
+        // Version bilgisini yükle
+        fetch('version.json')
+            .then(response => response.json())
+            .then(data => {
+                statusEl.innerHTML = `
+                    <strong>MindAR Test v${data.version}</strong><br>
+                    Durum: Başlatılıyor...
+                `;
+            })
+            .catch(error => {
+                statusEl.innerHTML = `<strong>Hata:</strong> ${error.message}`;
+            });
+        
+        sceneEl.addEventListener('renderstart', () => {
+            const arSystem = sceneEl.systems["mindar-image-system"];
+            arSystem.start();
+            statusEl.innerHTML = `
+                <strong>MindAR Test</strong><br>
+                Durum: Hedef aranıyor...
+            `;
+        });
+        
+        // AR hedef bulunduğunda
+        sceneEl.addEventListener('targetFound', () => {
+            statusEl.innerHTML = `
+                <strong>🎯 HEDEF BULUNDU!</strong><br>
+                Kırmızı küp görünür olmalı
+            `;
+            targetHintEl.classList.add('hidden');
+        });
+        
+        // AR hedef kaybedildiğinde
+        sceneEl.addEventListener('targetLost', () => {
+            statusEl.innerHTML = `
+                <strong>❌ Hedef Kaybedildi</strong><br>
+                Durum: Hedef aranıyor...
+            `;
+            targetHintEl.classList.remove('hidden');
+        });
+        
+        // Hata durumu
+        sceneEl.addEventListener('error', (error) => {
+            statusEl.innerHTML = `
+                <strong>❌ HATA!</strong><br>
+                ${error.detail}
+            `;
+        });
+    </script>
+</body>
+</html> 
