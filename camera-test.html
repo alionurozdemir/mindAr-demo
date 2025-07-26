@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Kamera Test</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            text-align: center;
+        }
+        
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            margin: 50px auto;
+        }
+        
+        #video {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 3px solid #667eea;
+        }
+        
+        .button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 18px;
+            cursor: pointer;
+            margin: 10px;
+        }
+        
+        .button:hover {
+            background: #5a6fd8;
+        }
+        
+        .status {
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+        
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📱 Kamera Test</h1>
+        
+        <div id="status" class="status info">
+            Kamera erişimi test ediliyor...
+        </div>
+        
+        <video id="video" autoplay playsinline></video>
+        
+        <div>
+            <button class="button" onclick="startCamera()">🎥 Kamerayı Başlat</button>
+            <button class="button" onclick="stopCamera()">⏹️ Kamerayı Durdur</button>
+        </div>
+        
+        <div style="margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 10px;">
+            <h3>🔧 Sorun Giderme:</h3>
+            <ul style="text-align: left;">
+                <li>Kamera izni isteyecek - "İzin Ver" tıklayın</li>
+                <li>Eğer izin vermezse, tarayıcı ayarlarından kontrol edin</li>
+                <li>Kamera çalışıyorsa, AR deneyimi de çalışacak</li>
+            </ul>
+        </div>
+        
+        <div style="margin-top: 20px;">
+            <a href="mindar-monster.html" class="button" style="text-decoration: none; display: inline-block;">
+                🐉 AR Deneyimine Git
+            </a>
+        </div>
+    </div>
+
+    <script>
+        let stream = null;
+        const video = document.getElementById('video');
+        const status = document.getElementById('status');
+        
+        async function startCamera() {
+            try {
+                status.className = 'status info';
+                status.textContent = 'Kamera başlatılıyor...';
+                
+                stream = await navigator.mediaDevices.getUserMedia({ 
+                    video: { 
+                        facingMode: 'environment',
+                        width: { ideal: 1280 },
+                        height: { ideal: 720 }
+                    } 
+                });
+                
+                video.srcObject = stream;
+                status.className = 'status success';
+                status.textContent = '✅ Kamera başarıyla çalışıyor!';
+                
+                console.log('Kamera başarıyla başlatıldı');
+                
+            } catch (error) {
+                console.error('Kamera hatası:', error);
+                status.className = 'status error';
+                
+                if (error.name === 'NotAllowedError') {
+                    status.textContent = '❌ Kamera izni reddedildi. Tarayıcı ayarlarından izin verin.';
+                } else if (error.name === 'NotFoundError') {
+                    status.textContent = '❌ Kamera bulunamadı. Cihazınızda kamera olduğundan emin olun.';
+                } else {
+                    status.textContent = '❌ Kamera hatası: ' + error.message;
+                }
+            }
+        }
+        
+        function stopCamera() {
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+                video.srcObject = null;
+                stream = null;
+                status.className = 'status info';
+                status.textContent = 'Kamera durduruldu.';
+            }
+        }
+        
+        // Sayfa yüklendiğinde otomatik kamera testi
+        window.addEventListener('load', () => {
+            setTimeout(startCamera, 1000);
+        });
+        
+        // Sayfa kapanırken kamerayı durdur
+        window.addEventListener('beforeunload', stopCamera);
+    </script>
+</body>
+</html> 

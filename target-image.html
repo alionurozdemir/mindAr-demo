@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AR Hedef Görseli</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            max-width: 500px;
+        }
+        
+        .target-image {
+            width: 300px;
+            height: 200px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
+            border-radius: 15px;
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .instructions {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .instructions h3 {
+            color: #333;
+            margin-top: 0;
+        }
+        
+        .instructions ol {
+            text-align: left;
+            color: #666;
+        }
+        
+        .qr-code {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .qr-code img {
+            width: 200px;
+            height: 200px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 AR Hedef Görseli</h1>
+        
+        <div class="target-image">
+            🎯<br>
+            Bu görseli<br>
+            kameraya gösterin
+        </div>
+        
+        <div class="instructions">
+            <h3>📱 Nasıl Kullanılır:</h3>
+            <ol>
+                <li>Bu sayfayı telefonunuzda açın</li>
+                <li>AR deneyimi sayfasına geçin</li>
+                <li>Kamerayı yukarıdaki renkli kutuya yöneltin</li>
+                <li>3D canavar görünmeye başlayacak!</li>
+            </ol>
+        </div>
+        
+        <div class="qr-code">
+            <h3>📲 Hızlı Erişim</h3>
+            <p>Bu QR kodu telefonunuzla tarayın:</p>
+            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2ZmZiIvPgogIDx0ZXh0IHg9IjEwMCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiMzMzMiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5BUiBIZWRlZiBHw7Zyc2VsaTwvdGV4dD4KICA8dGV4dCB4PSIxMDAiIHk9IjEyMCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEyIiBmaWxsPSIjNjY2IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+aHR0cDovLzE5Mi4xNjguMS4xMzg6ODAwMC90YXJnZXQtaW1hZ2UuaHRtbDwvdGV4dD4KPC9zdmc+" alt="QR Code">
+        </div>
+        
+        <p><strong>🔗 Direkt Link:</strong></p>
+        <p><a href="http://192.168.1.138:8000/mindar-monster.html" style="color: #667eea; text-decoration: none; font-weight: bold;">mindar-monster.html</a></p>
+        <p><a href="http://192.168.1.138:8000/mindar-dragon.html" style="color: #667eea; text-decoration: none; font-weight: bold;">mindar-dragon.html</a></p>
+    </div>
+</body>
+</html> 

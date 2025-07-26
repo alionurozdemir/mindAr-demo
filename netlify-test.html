@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AR Test</title>
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.4.2/dist/mindar-image-aframe.prod.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            max-width: 500px;
+            margin: 50px auto;
+        }
+        
+        .target-image {
+            width: 300px;
+            height: 200px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            border-radius: 15px;
+            margin: 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+        }
+        
+        .ar-button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 18px;
+            cursor: pointer;
+            margin: 10px;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .ar-button:hover {
+            background: #5a6fd8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🐉 AR Canavar Test</h1>
+        
+        <div class="target-image">
+            🎯<br>
+            Bu görseli<br>
+            kameraya gösterin
+        </div>
+        
+        <p><strong>AR Deneyimlerini Test Edin:</strong></p>
+        
+        <a href="simple-ar.html" class="ar-button">🎮 Basit AR Test</a>
+        <br>
+        <a href="mindar-monster.html" class="ar-button">🐉 Canavar AR</a>
+        <br>
+        <a href="mindar-dragon.html" class="ar-button">🔥 Ejderha AR</a>
+        
+        <div style="margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 10px;">
+            <h3>📱 Nasıl Kullanılır:</h3>
+            <ol style="text-align: left;">
+                <li>Yukarıdaki butonlardan birine tıklayın</li>
+                <li>Kamera izinlerini verin</li>
+                <li>Kamerayı yukarıdaki renkli kutuya yöneltin</li>
+                <li>3D canavar görünmeye başlayacak!</li>
+                <li>Canavara tıklayın ve renk değişimini izleyin</li>
+            </ol>
+        </div>
+    </div>
+</body>
+</html> 

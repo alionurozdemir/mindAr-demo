@@ -4,8 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>MindAR Canavar Deneyimi</title>
-    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.4.2/dist/mindar-image-aframe.prod.js"></script>
+    <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
     <style>
         body {
             margin: 0;
@@ -102,7 +102,7 @@
     </div>
 
     <a-scene
-        mindar-image="imageTargetSrc: https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.4.2/examples/image-tracking/assets/card-example/card.mind;"
+        mindar-image="imageTargetSrc: https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/examples/image-tracking/assets/card-example/card.mind;"
         color-space="sRGB"
         renderer="colorManagement: true, physicallyCorrectLights"
         vr-mode-ui="enabled: false"
@@ -145,14 +145,12 @@
     </a-scene>
 
     <script>
-        // MindAR başlatma
+        // MindAR başlatma - Dokümantasyona uygun
         const sceneEl = document.querySelector('a-scene');
-        const arSystem = sceneEl.systems["mindar-image-system"];
-        
-        // Yükleme durumu yönetimi
         const loadingEl = document.getElementById('loading');
         
         sceneEl.addEventListener('renderstart', () => {
+            const arSystem = sceneEl.systems["mindar-image-system"];
             arSystem.start();
             loadingEl.classList.add('hidden');
         });
